@@ -1,0 +1,9 @@
+*.o
+*.bin
+*.hex
+*~
+*.map
+*.d
+*.elf
+hzk/hzk
+hzk/out.h
