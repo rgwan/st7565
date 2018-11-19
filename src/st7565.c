@@ -83,7 +83,6 @@ void DisplayString(char y, char *s)
 
 int main(void)
 {
-	int i, j;
 	
 
 	clock_setup();
@@ -112,26 +111,46 @@ int main(void)
 			w_dat(0x02);
 		}
 	}*/
-	uint8_t k = 0;
-	uint8_t cr = 0;
-	for(k = 0; k < sizeof(font_cn) / 32; k++)
-	{
-		cr = k / 7;
-		for(j = 0; j < 2; j ++)
-		{
-			LCD_SetY(j + cr * 2);
-			LCD_SetX((k % 7) * 16 + 8);
-			for(i=0;i<16;i++)  //X
-			{  
-				w_dat(font_cn[k][i + j * 16]);
-	       		}
-	       	}
-	}
+	uint16_t k = 0;
+	int x = 0;
+	int y = 0;
+	int i;
+	int j;
+	int screen;
 	   	
  	while(1)  
- 	{  
-  	delay_ms(500);
-  	gpio_toggle(GPIOB, GPIO11);
+ 	{
+ 		x = 0;
+ 		y = 0;
+ 		for(k = 0; k < sizeof(cr_table); k++)
+ 		{
+ 			if(cr_table[k] == 0x01)
+ 			{
+ 				y += 1;
+ 				x = 0;
+ 			}
+ 			if(y == 4)
+ 			{
+ 				y = 0;
+ 				x = 0;
+  				delay_ms(1000);
+  				gpio_toggle(GPIOB, GPIO11);
+  				Display_fill(0x00); 
+ 			}
+			for(j = 0; j < 2; j ++)
+			{
+				LCD_SetY(j + y * 2);
+				LCD_SetX(x * 16);
+				for(i=0;i<16;i++)  //X
+				{  
+					w_dat(font_cn[k][i + j * 16]);
+		       		}
+		       	}
+		       	x++;
+ 		}
+  		delay_ms(1000);
+  		gpio_toggle(GPIOB, GPIO11);
+  		Display_fill(0x00); 
 	}  
    
 
