@@ -4,7 +4,7 @@
 #define VC_ON 0x2C       //1010   
 #define VR_ON 0x2A   
 #define VF_ON 0x29      //1001   
-
+#ifdef USE_FONT
 unsigned char font[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, // Space
 	0x3E, 0x5B, 0x4F, 0x5B, 0x3E, // face
@@ -264,7 +264,7 @@ unsigned char font[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00  // #256 NBSP
 };
 
-  
+#endif
 /******************************delay time***********************************/  
 void delay_ms(unsigned int ms)  
 {  
@@ -278,7 +278,7 @@ void delay_ms(unsigned int ms)
        }
       }  
 } 
-static inline void NOP()
+static inline void NOP(void)
 {
 	int i = 2;
 	while(i--)
@@ -344,7 +344,7 @@ void w_cmd(unsigned char Command)
 void Display(unsigned char *p)  
 {  
  unsigned char page,column;  
- for(page=0xB7;page>=0xB0;page--)  
+ for(page=0xB0;page<=0xB7;page++)  
     {  
      w_cmd(page);  //set page address   
      w_cmd(0x10);  //set Column address MSB   
@@ -355,7 +355,7 @@ void Display(unsigned char *p)
         }  
     }  
 }  
-  
+ 
   
 void Display_fill(unsigned char fill)  
 {  
@@ -373,7 +373,7 @@ void Display_fill(unsigned char fill)
 }  
   
   
-  
+#if 0 
   
   
 void Grid_white()  
@@ -453,12 +453,14 @@ void LCD_Putc(char x, char y, char ch)
         	w_dat(0x00);
 	//}  
 }
+
+#endif
   
 void Init_IC()  
 {  
  gpio_clear(GPIO_CS);
  LCD_Reset();  
- w_cmd(0xA3);    //LCD Bias selection(1/65 Duty,1/7Bias)   
+ w_cmd(0xA3);    //LCD Bias	 selection(1/65 Duty,1/7Bias)   
  w_cmd(0xA0);    //ADC selection(SEG0->SEG128)   
  w_cmd(0xC8);    //SHL selection(COM0->COM64)   
   

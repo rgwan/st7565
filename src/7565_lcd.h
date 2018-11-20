@@ -9,7 +9,7 @@ void Grid_Black(void);
 void Grid_Line1(void);
 void Grid_Line2(void);
 void Init_IC(void);
-void LCD_Putc(char x, char y, char ch);
+
 
 
 #define GPIO_RES	GPIOB, GPIO9
@@ -22,4 +22,9 @@ void LCD_Putc(char x, char y, char ch);
 
 #define LCD_SetY(y) w_cmd(((y) & 0x7) | 0xB0)
 
+#define USE_FONT
+
+#ifdef USE_FONT
+void LCD_Putc(char x, char y, char ch);
 extern unsigned char font[];
+#endif

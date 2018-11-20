@@ -20,7 +20,7 @@ int code_convert(char *from_charset,char *to_charset,char *inbuf,size_t inlen,ch
 
 int u2g(char *inbuf,int inlen,char *outbuf,int outlen)
 {
-	return code_convert("utf-8","gb2312",inbuf,inlen,outbuf,outlen);
+	return code_convert("utf-8","gbk",inbuf,inlen,outbuf,outlen);
 }
 
 int g2u(char *inbuf,size_t inlen,char *outbuf,size_t outlen)
@@ -77,6 +77,7 @@ int main(int argc, char *argv[])
 	
 	int crlength = 0;
 	memset(listbufferu, 0x00, listlength);
+	printf("GB2312 character: %d\n", strlen(listbufferg));
 #if 1	
 	for(i = 0; i < strlen(listbufferg) - 2; i++)
 	{
@@ -145,7 +146,7 @@ int main(int argc, char *argv[])
 			fprintf(fpout, "\n\t");		
 	}
 	fprintf(fpout, "};\n");
-	printf("'%s' file generated successfully\n", argv[2]);
+	printf("'%s' file generated successfully, contains %d characters\n", argv[2], j);
 	fclose(fphzk);
 	fclose(fpout);
 #endif
