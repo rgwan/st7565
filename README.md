@@ -1,4 +1,4 @@
-DescriptionPB9
+Description
 ======
 
 ST7565 based COG LCD12864 (Serial mode) example program using libopencm3 library.
